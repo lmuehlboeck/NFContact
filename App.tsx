@@ -1,118 +1,83 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { HCESession, NFCTagType4NDEFContentType, NFCTagType4 } from 'react-native-hce';
+import NfcManager, {NfcTech, Ndef} from 'react-native-nfc-manager';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+NfcManager.start();
+let session: HCESession;
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+
+export default function App() {
+  const [data, setData] = useState('Drip Narix')
+
+  async function sendData() { 
+    const tag = new NFCTagType4({
+      type: NFCTagType4NDEFContentType.Text,
+      content: data,
+      writable: false
+    });
+    console.log(`'${data}' wird gesendet`)
+  
+    session = await HCESession.getInstance();
+    session.setApplication(tag);
+    await session.setEnabled(true).catch((err) => console.log(err));
+  }
+
+  async function stopSending() {
+    if(session)
+       await session.setEnabled(false)
+  }
+
+  async function readNdef() {
+    stopSending()
+    NfcManager.requestTechnology(NfcTech.Ndef)
+      .then(() => NfcManager.getTag())
+      .then(tag => {
+        console.log(tag)
+        if(tag) {
+          let text = String.fromCharCode(...tag.ndefMessage[0].payload)
+          console.log(text)
+          Alert.alert("Text empfangen", text)
+        }
+      })
+      .catch(err => {
+        console.warn(err)
+      })
+      .then(() => {NfcManager.cancelTechnologyRequest()})
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Text>Text zum Senden eingeben:</Text>
+      <TextInput style={styles.input} onChangeText={(val) => setData(val)} />
+      <View style={styles.buttonContainer}>
+        <Button title='Senden' onPress={sendData} />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title='Empfangen' onPress={readNdef} />
+      </View>
     </View>
   );
 }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  buttonContainer: {
+    padding: 5
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  input: {
+    width: 200,
+    padding: 8,
+    margin: 20,
+    borderWidth: 2,
+    borderColor: 'blue',
+    color: 'black' 
+  }
 });
-
-export default App;
