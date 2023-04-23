@@ -1,13 +1,18 @@
 import React from 'react';
 import { View } from 'react-native'
 import { Text } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ReceivedContactsCard from './ReceivedContactsCard';
+import SearchBar from './SearchBar';
+import AddButton from './AddButton.js'
 
-export default function ReceivedContactsScreen() {
+export default function MyContactsScreen() {
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Empfangene Kontakte</Text>
-            <Icon name='account-plus' size={50} color="#000" />
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <SearchBar/>
+            <ReceivedContactsCard/>
+            <ReceivedContactsCard/>
+            <ReceivedContactsCard/>
+            <AddButton/>
         </View>
     );
 }
