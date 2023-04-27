@@ -8,10 +8,10 @@ export default function SearchBar() {
 
   return (
     <Searchbar
-      placeholder="Search"
+      placeholder="Suchen"
       onChangeText={onChangeSearch}
       value={searchQuery}
-      style={{width: '95%', margin:10}}
+      style={{width: '95%', margin: 10}}
     />
   );
 };
