@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native'
-import { Text } from 'react-native-paper';
+import { FlatList, View } from 'react-native';
 import ContactsCard from './ContactsCard';
 import SearchBar from './SearchBar';
 import AddButton from './AddButton.js'
@@ -8,13 +7,50 @@ import AddButton from './AddButton.js'
 const styles = require('./styles.js')
 
 export default function MyContactsScreen() {
+    const data =  [
+        {
+            id: 1,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 2,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 3,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 4,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 5,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+    ]
+
     return (
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={styles.viewStyle}>
             <SearchBar/>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.ScrollViewContainerStyle}>
-                <ContactsCard name="Max Mustermann" tel="Tel.: 0670/1234567" email="E-Mail: max@mustermann.at" received={false} />
-                <ContactsCard name="Max Mustermann" tel="Tel.: 0670/1234567" email="E-Mail: max@mustermann.at" received={false} />
-            </ScrollView>
+            <FlatList
+                contentContainerStyle={styles.flatListContainerStyle}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} />}
+                keyExtractor={(item) => item.id}
+                data={data}
+                />
             <AddButton actions={[{icon: "cellphone-nfc", label: "Kontakt senden"},{icon: "account-plus", label: "Kontakt erstellen"},{icon: "account-multiple-plus", label: "Aus Kontakten importieren"}]}/>
         </View>
     );

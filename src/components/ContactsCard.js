@@ -1,7 +1,5 @@
 import React from 'react';
 import { Text, Avatar, Button, Card } from 'react-native-paper';
-import { black } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors.js';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = require('./styles.js')
 
@@ -20,8 +18,8 @@ export default function ContactsCard(props) {
                     </Button>
                     :
                     <Button textColor='white' style={styles.buttonStyle} labelStyle={{color: "black"}} icon={name="pencil"} mode="contained-tonal">
-                    <Text style={{color:'black', fontWeight: 'bold'}} >Bearbeiten</Text>
-                </Button>
+                        <Text style={{color:'black', fontWeight: 'bold'}} >Bearbeiten</Text>
+                    </Button>
                 }
                 {props.received ?
                     <Button style={styles.buttonStyle} icon={name="trash-can-outline"} mode="contained">

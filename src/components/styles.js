@@ -2,15 +2,20 @@
 import { StyleSheet } from 'react-native';
 
 module.exports = StyleSheet.create({
-    cardStyle: {
-        width: '100%',
+    viewStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     buttonStyle: {
         borderColor: '#FFFFFF',
         width: '40%',
         margin: 0,
     },
-    ScrollViewContainerStyle: {
+    flatListContainerStyle: {
+        flexGrow: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center',
         width: '120%'
     }
 });
