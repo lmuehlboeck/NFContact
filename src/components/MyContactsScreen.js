@@ -1,8 +1,9 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import ContactsCard from './ContactsCard';
-import SearchBar from './SearchBar';
+import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
+import TopBar from './TopBar'
 
 const styles = require('./styles.js')
 
@@ -42,7 +43,6 @@ export default function MyContactsScreen() {
 
     return (
         <View style={styles.viewStyle}>
-            <SearchBar/>
             <FlatList
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}
@@ -50,6 +50,8 @@ export default function MyContactsScreen() {
                 renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} />}
                 keyExtractor={(item) => item.id}
                 data={data}
+                ListHeaderComponent={({item}) => <TopBar />}
+                stickyHeaderIndices={[0]}
                 />
             <AddButton actions={[{icon: "cellphone-nfc", label: "Kontakt senden"},{icon: "account-plus", label: "Kontakt erstellen"},{icon: "account-multiple-plus", label: "Aus Kontakten importieren"}]}/>
         </View>

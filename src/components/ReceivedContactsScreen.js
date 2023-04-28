@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, View } from 'react-native'
 import { } from 'react-native-paper';
 import ContactsCard from './ContactsCard';
-import SearchBar from './SearchBar';
+import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
 
 const styles = require('./styles.js')
