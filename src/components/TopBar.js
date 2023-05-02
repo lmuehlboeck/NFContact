@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Searchbar, IconButton, useTheme } from 'react-native-paper';
-import { changeTheme } from './App';
 
-export default function TopBar() {
+export default function TopBar(props) {
+  const theme = useTheme()
+  const [modeIcon, setModeIcon] = useState('weather-night')
 
-    return(
-        <View style={{flexGrow:1, flexDirection: 'row',height: 60, margin: 10, marginBottom: 0, backgroundColor: '#00'}}>
-            <SearchBar/>
-            <ThemeButton/>
-        </View>
-    )
+  return(
+      <View style={{flexGrow:1, flexDirection: 'row',height: 60, margin: 10, marginBottom: 0, backgroundColor: '#00'}}>
+          <SearchBar/>
+          <IconButton
+          mode='contained'
+          icon={modeIcon}
+          iconColor={theme.colors.background}
+          size={20}
+          onPress={() => {props.changeTheme(); setModeIcon(modeIcon == 'weather-night' ? 'weather-sunny' : 'weather-night')}}
+          style={{width: 60, height: 60, alignSelf: 'center', backgroundColor: theme.colors.primary}}
+          />
+      </View>
+  )
 }
 
 const SearchBar = () => {
@@ -26,20 +34,5 @@ const SearchBar = () => {
         style={{flex:1, alignSelf: 'center'}}
       />
     );
-  };
-
-const ThemeButton = () => {
-    const theme=useTheme()
-    return(
-      <IconButton
-      mode='contained'
-      icon='weather-night'
-      iconColor={theme.colors.background}
-      size={20}
-      onPress={() => changeTheme()}
-      style={{width: 60, height: 60, alignSelf: 'center', backgroundColor: theme.colors.primary}}
-      />
-    )
-    
   };
 

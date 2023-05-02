@@ -8,7 +8,7 @@ import TopBar from './TopBar';
 
 const styles = require('./styles.js')
 
-export default function RecievedContactsScreen() {
+export default function RecievedContactsScreen(props) {
     const data =  [
         {
             id: 1,
@@ -73,7 +73,7 @@ export default function RecievedContactsScreen() {
     ]
     return (
         <View style={styles.viewStyle}>
-            <TopBar/>
+            <TopBar changeTheme={props.changeTheme}/>
             <FlatList
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}

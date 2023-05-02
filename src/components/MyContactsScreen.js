@@ -4,13 +4,12 @@ import ContactsCard from './ContactsCard';
 import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
 import TopBar from './TopBar'
-import { useTheme } from 'react-native-paper';
 
 const styles = require('./styles.js')
 
 
 
-export default function MyContactsScreen() {
+export default function MyContactsScreen(props) {
     const data =  [
         {
             id: 1,
@@ -76,7 +75,7 @@ export default function MyContactsScreen() {
 
     return (
         <View style={styles.viewStyle}>
-            <TopBar/>
+            <TopBar changeTheme={props.changeTheme} />
             <FlatList
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}

@@ -10,7 +10,7 @@ import ReceivedContactsScreen from './ReceivedContactsScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function MyNavigator() {
+export default function MyNavigator(props) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -60,7 +60,7 @@ export default function MyNavigator() {
     >
       <Tab.Screen
         name="MyContacts"
-        component={MyContactsScreen}
+        children={() => <MyContactsScreen changeTheme={props.changeTheme} />}
         options={{
           tabBarLabel: 'Meine Kontakte',
           tabBarIcon: ({ color, size }) => {
@@ -70,7 +70,7 @@ export default function MyNavigator() {
       />
       <Tab.Screen
         name="ReceivedContacts"
-        component={ReceivedContactsScreen}
+        children={() => <ReceivedContactsScreen changeTheme={props.changeTheme} />}
         options={{
           tabBarLabel: 'Empfangene Kontakte',
           tabBarIcon: ({ color, size }) => {
