@@ -4,6 +4,7 @@ import { } from 'react-native-paper';
 import ContactsCard from './ContactsCard';
 import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
+import TopBar from './TopBar';
 
 const styles = require('./styles.js')
 
@@ -72,7 +73,7 @@ export default function RecievedContactsScreen() {
     ]
     return (
         <View style={styles.viewStyle}>
-            <SearchBar/>
+            <TopBar/>
             <FlatList
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}

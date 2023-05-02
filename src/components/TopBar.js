@@ -1,20 +1,45 @@
-import * as React from 'react';
-import { View } from 'react-native'
-import { Searchbar } from 'react-native-paper';
+import React from 'react';
+import { View } from 'react-native';
+import { Searchbar, IconButton, useTheme } from 'react-native-paper';
+import { changeTheme } from './App';
 
-export default function SearchBar() {
-  const [searchQuery, setSearchQuery] = React.useState('');
+export default function TopBar() {
 
-  const onChangeSearch = query => setSearchQuery(query);
+    return(
+        <View style={{flexGrow:1, flexDirection: 'row',height: 60, margin: 10, marginBottom: 0, backgroundColor: '#00'}}>
+            <SearchBar/>
+            <ThemeButton/>
+        </View>
+    )
+}
 
-  return (
-    <View style={{flexGrow: 1, paddingTop: 10, backgroundColor: 'transparent'}}>
+const SearchBar = () => {
+    const [searchQuery, setSearchQuery] = React.useState('');
+  
+    const onChangeSearch = query => setSearchQuery(query);
+  
+    return (
       <Searchbar
-        placeholder="Suchen"
+        placeholder='Suchen'
         onChangeText={onChangeSearch}
         value={searchQuery}
-        style={{width: '95%'}}
+        style={{flex:1, alignSelf: 'center'}}
       />
-    </View>
-  );
-};
+    );
+  };
+
+const ThemeButton = () => {
+    const theme=useTheme()
+    return(
+      <IconButton
+      mode='contained'
+      icon='weather-night'
+      iconColor={theme.colors.background}
+      size={20}
+      onPress={() => changeTheme()}
+      style={{width: 60, height: 60, alignSelf: 'center', backgroundColor: theme.colors.primary}}
+      />
+    )
+    
+  };
+

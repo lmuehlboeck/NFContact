@@ -16,6 +16,6 @@ module.exports = StyleSheet.create({
         flexGrow: 1, 
         alignItems: 'center', 
         justifyContent: 'center',
-        width: '120%'
+        width: '120%',
     }
 });

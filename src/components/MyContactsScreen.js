@@ -4,8 +4,11 @@ import ContactsCard from './ContactsCard';
 import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
 import TopBar from './TopBar'
+import { useTheme } from 'react-native-paper';
 
 const styles = require('./styles.js')
+
+
 
 export default function MyContactsScreen() {
     const data =  [
@@ -39,10 +42,41 @@ export default function MyContactsScreen() {
             tel: "Tel.: 0670/1234567",
             email: "E-Mail: max@mustermann.at"
         },
+        {
+            id: 6,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 7,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 8,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 9,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
+        {
+            id: 10,
+            name: "Max Mustermann",
+            tel: "Tel.: 0670/1234567",
+            email: "E-Mail: max@mustermann.at"
+        },
     ]
 
     return (
         <View style={styles.viewStyle}>
+            <TopBar/>
             <FlatList
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}
@@ -50,8 +84,6 @@ export default function MyContactsScreen() {
                 renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} />}
                 keyExtractor={(item) => item.id}
                 data={data}
-                ListHeaderComponent={({item}) => <TopBar />}
-                stickyHeaderIndices={[0]}
                 />
             <AddButton actions={[{icon: "cellphone-nfc", label: "Kontakt senden"},{icon: "account-plus", label: "Kontakt erstellen"},{icon: "account-multiple-plus", label: "Aus Kontakten importieren"}]}/>
         </View>
