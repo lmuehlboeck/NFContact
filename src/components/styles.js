@@ -1,5 +1,6 @@
 'use strict';
 import { StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 module.exports = StyleSheet.create({
     viewStyle: {
@@ -17,5 +18,17 @@ module.exports = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'center',
         width: '120%',
+    },
+    modalStyle: {
+        height: 250,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 15,
+        marginTop: 'auto',
+        borderRadius: 15
+    },
+    portalStyle: {
+        flex: 1,
+        flexDirection: 'column',
     }
 });
