@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, Avatar, Button, Card, useTheme } from 'react-native-paper';
+import { EditingScreen } from './EditingScreen.js';
 
 const styles = require('./styles.js')
 
@@ -18,7 +19,7 @@ export default function ContactsCard(props) {
                         <Text style={{color:theme.colors.onBackground, fontWeight: 'bold'}}>Exportieren</Text>
                     </Button>
                     :
-                    <Button textColor='white' style={styles.buttonStyle} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
+                    <Button textColor='white' style={styles.buttonStyle} onPress={props.editButtonPress} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
                         <Text style={{color: theme.colors.onBackground, fontWeight: 'bold'}} >Bearbeiten</Text>
                     </Button>
                 }

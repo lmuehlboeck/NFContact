@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
 import ContactsCard from './ContactsCard';
-import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
 import TopBar from './TopBar'
 import { Modal, Portal, useTheme, Text } from 'react-native-paper';
-
 const styles = require('./styles.js')
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -19,9 +18,9 @@ export default function MyContactsScreen(props) {
     const data =  [
         {
             id: 1,
-            name: "Max Mustermann",
+            name: "Max Mizrak",
             tel: "Tel.: 0670/1234567",
-            email: "E-Mail: max@mustermann.at"
+            email: "E-Mail: mmizrak@student.tgm.ac.at"
         },
         {
             id: 2,
@@ -89,6 +88,7 @@ export default function MyContactsScreen(props) {
             <Portal style={styles.portalStyle}>
                 <Modal visible={modalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={[{backgroundColor: theme.colors.secondaryContainer}, styles.modalStyle]}>
                     <Text>{modalText}</Text>
+                    <Icon name="contactless-payment" size={128} color={theme.colors.onBackground}/>
                 </Modal>
             </Portal>
             <TopBar changeTheme={props.changeTheme}/>
@@ -96,7 +96,7 @@ export default function MyContactsScreen(props) {
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} onPressSend={() => sendContact(item.id)}/>}
+                renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} editButtonPress={props.editButtonPress} onPressSend={() => sendContact(item.id)}/>}
                 keyExtractor={(item) => item.id}
                 data={data}
                 />

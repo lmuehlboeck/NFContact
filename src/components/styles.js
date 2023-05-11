@@ -30,5 +30,8 @@ module.exports = StyleSheet.create({
     portalStyle: {
         flex: 1,
         flexDirection: 'column',
+    },
+    h1: {
+        fontWeight: 'bold',
     }
 });

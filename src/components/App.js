@@ -3,6 +3,10 @@ import { MD3DarkTheme, MD3LightTheme, Provider as PaperProvider } from 'react-na
 
 import MyNavigator from './MyNavigator';
 import { useState } from 'react';
+import EditingScreen from './EditingScreen';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MyContactsScreen from './MyContactsScreen';
+import { PropsService } from '@ui-kitten/components/devsupport';
 
 export function changeTheme() {
     if(theme.dark) {
@@ -14,6 +18,8 @@ export function changeTheme() {
     }
 }
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
     const [theme, setTheme] = useState({...MD3LightTheme})
     const changeTheme = () => {
@@ -22,8 +28,21 @@ export default function App() {
 
     return (
         <PaperProvider theme={theme} >
-            <NavigationContainer theme={theme}>
+            {/** <NavigationContainer theme={theme}>
                 <MyNavigator changeTheme={changeTheme} />
+            </NavigationContainer> */}
+            <NavigationContainer theme={theme}>
+                <Stack.Navigator>
+                    <Stack.Screen
+                    name="Contacts"
+                    children={() => <MyNavigator changeTheme={changeTheme} />}
+                    options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                    name="EditContact"
+                    component={EditingScreen}
+                    />
+                </Stack.Navigator>
             </NavigationContainer>
         </PaperProvider>
         
