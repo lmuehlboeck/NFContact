@@ -1,8 +1,6 @@
 import React from 'react';
-import { FlatList, View } from 'react-native'
-import { } from 'react-native-paper';
+import { FlatList, View, Alert } from 'react-native'
 import ContactsCard from './ContactsCard';
-import SearchBar from './TopBar';
 import AddButton from './AddButton.js'
 import TopBar from './TopBar';
 
@@ -82,7 +80,11 @@ export default function RecievedContactsScreen(props) {
                 keyExtractor={(item) => item.id}
                 data={data}
                 />
-            <AddButton actions={[{icon: "cellphone-nfc", label: "Kontakt empfangen"},{icon: "trash-can-outline", label: "Mehrere Kontakte löschen"},{icon: "import", label: "Mehrere Kontakte importieren"}]}/>
+            <AddButton actions={[
+                {icon: "cellphone-nfc", label: "Kontakt empfangen", onPress: () => Alert.alert('Achtung!', 'Work in progress')},
+                {icon: "trash-can-outline", label: "Mehrere Kontakte löschen", onPress: props.navigateDelete},
+                {icon: "import", label: "Mehrere Kontakte importieren", onPress: () => Alert.alert('Achtung!', 'Work in progress')}
+            ]}/>
         </View>
     );
 }

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Alert } from 'react-native';
 import ContactsCard from './ContactsCard';
 import AddButton from './AddButton.js'
 import TopBar from './TopBar'
 import { Modal, Portal, useTheme, Text } from 'react-native-paper';
 const styles = require('./styles.js')
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -15,6 +16,7 @@ export default function MyContactsScreen(props) {
     const [modalText, setModalText] = useState("ID senden")
 
     const theme = useTheme()
+    const navigation = useNavigation()
     const data =  [
         {
             id: 1,
@@ -96,11 +98,15 @@ export default function MyContactsScreen(props) {
                 contentContainerStyle={styles.flatListContainerStyle}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} editButtonPress={props.editButtonPress} onPressSend={() => sendContact(item.id)}/>}
+                renderItem={({item}) => <ContactsCard name={item.name} tel={item.tel} email={item.email} received={false} editButtonPress={props.navigateEdit} onPressSend={() => sendContact(item.id)}/>}
                 keyExtractor={(item) => item.id}
                 data={data}
                 />
-            <AddButton actions={[{icon: "cellphone-nfc", label: "Mehrere Kontakte senden"},{icon: "account-plus", label: "Kontakt erstellen"},{icon: "account-multiple-plus", label: "Aus Kontakten importieren"}]}/>
+            <AddButton actions={[
+                {icon: "cellphone-nfc", label: "Mehrere Kontakte senden", onPress: () => Alert.alert('Achtung!', 'Work in progress')},
+                {icon: "account-plus", label: "Kontakt erstellen", onPress: props.navigateCreate},
+                {icon: "account-multiple-plus", label: "Aus Kontakten importieren", onPress: () => Alert.alert('Achtung!', 'Work in progress')}
+            ]}/>
         </View>
 
     );

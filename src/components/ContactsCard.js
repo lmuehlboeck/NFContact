@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, Avatar, Button, Card, useTheme } from 'react-native-paper';
-import { EditingScreen } from './EditingScreen.js';
+import { Text, Avatar, Button, Card, useTheme } from 'react-native-paper'
 
 const styles = require('./styles.js')
 

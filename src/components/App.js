@@ -1,22 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { MD3DarkTheme, MD3LightTheme, Provider as PaperProvider } from 'react-native-paper';
+import { MD3DarkTheme, MD3LightTheme, Provider as PaperProvider, Button } from 'react-native-paper';
 
 import MyNavigator from './MyNavigator';
 import { useState } from 'react';
 import EditingScreen from './EditingScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MyContactsScreen from './MyContactsScreen';
-import { PropsService } from '@ui-kitten/components/devsupport';
+import SelectContacts from './SelectContacts';
 
-export function changeTheme() {
-    if(theme.dark) {
-        theme={...MD3LightTheme}
-        console.log("changed to light")
-    } else {
-        theme={...MD3DarkTheme}
-        console.log("changed to dark")
-    }
-}
 
 const Stack = createNativeStackNavigator();
 
@@ -28,9 +18,6 @@ export default function App() {
 
     return (
         <PaperProvider theme={theme} >
-            {/** <NavigationContainer theme={theme}>
-                <MyNavigator changeTheme={changeTheme} />
-            </NavigationContainer> */}
             <NavigationContainer theme={theme}>
                 <Stack.Navigator>
                     <Stack.Screen
@@ -41,6 +28,50 @@ export default function App() {
                     <Stack.Screen
                     name="EditContact"
                     component={EditingScreen}
+                    options={{
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.onBackground,
+                        title: 'Kontakt bearbeiten',
+                        headerRight: () => (
+                            <Button
+                              onPress={() => alert('This is a button!')}
+                              mode='contained'>
+                                Speichern
+                            </Button>
+                          ),
+                    }}
+                    />
+                    <Stack.Screen
+                    name="CreateContact"
+                    component={EditingScreen}
+                    options={{
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.onBackground,
+                        title: 'Kontakt erstellen',
+                        headerRight: () => (
+                            <Button
+                              onPress={() => alert('This is a button!')}
+                              mode='contained'>
+                                Erstellen
+                            </Button>
+                          ),
+                    }}
+                    />
+                    <Stack.Screen
+                    name="DeleteContacts"
+                    component={SelectContacts}
+                    options={{
+                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerTintColor: theme.colors.onBackground,
+                        title: 'Kontakte löschen',
+                        headerRight: () => (
+                            <Button
+                              onPress={() => alert('This is a button!')}
+                              mode='contained'>
+                                Löschen
+                            </Button>
+                          ),
+                    }}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

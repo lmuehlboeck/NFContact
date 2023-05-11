@@ -16,11 +16,6 @@ export default function MyNavigator(props) {
   const navigation = useNavigation()
   const theme = useTheme()
 
-  function onEditPress() {
-    console.log("Hallo")
-    navigation.navigate('EditContact');
-  }
-
   return (
     <NavigationContainer independent={true} theme={theme}>
       <Tab.Navigator
@@ -72,7 +67,9 @@ export default function MyNavigator(props) {
         <Tab.Screen
           name="MyContacts"
           headerShown={false}
-          children={() => <MyContactsScreen changeTheme={props.changeTheme} editButtonPress={onEditPress}/>}
+          children={() => <MyContactsScreen changeTheme={props.changeTheme} 
+                              navigateEdit={() => navigation.navigate('EditContact')}
+                              navigateCreate={() => navigation.navigate('CreateContact')}/>}
           options={{
             tabBarLabel: 'Meine Kontakte',
             tabBarIcon: ({ color, size }) => {
@@ -83,7 +80,8 @@ export default function MyNavigator(props) {
         <Tab.Screen
           name="ReceivedContacts"
           headerShown={false}
-          children={() => <ReceivedContactsScreen changeTheme={props.changeTheme} />}
+          children={() => <ReceivedContactsScreen changeTheme={props.changeTheme}
+                            navigateDelete={() => navigation.navigate('DeleteContacts')} />}
           options={{
             tabBarLabel: 'Empfangene Kontakte',
             tabBarIcon: ({ color, size }) => {
