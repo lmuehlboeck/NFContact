@@ -27,7 +27,7 @@ export default function App() {
                     />
                     <Stack.Screen
                     name="EditContact"
-                    component={EditingScreen}
+                    children={() => <EditingScreen editing={true} />}
                     options={{
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.onBackground,

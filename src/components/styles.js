@@ -33,5 +33,12 @@ module.exports = StyleSheet.create({
     },
     h1: {
         fontWeight: 'bold',
+    },
+    editingInput: {
+        flex: 1,
+        margin: 10
+    },
+    nameInput: {
+        width: '50%'
     }
 });
