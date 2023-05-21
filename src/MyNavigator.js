@@ -68,7 +68,10 @@ export default function MyNavigator(props) {
           name="MyContacts"
           headerShown={false}
           children={() => <MyContactsScreen changeTheme={props.changeTheme} 
-                              navigateEdit={() => navigation.navigate('EditContact')}
+                              navigateEdit={contactId => {
+                                navigation.navigate('EditContact')
+                                props.changeEditingContact(contactId)
+                              }}
                               navigateCreate={() => navigation.navigate('CreateContact')}/>}
           options={{
             tabBarLabel: 'Meine Kontakte',

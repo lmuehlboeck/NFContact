@@ -7,10 +7,10 @@ export default function ContactsCard(props) {
     const theme = useTheme()
     return(
         <Card style={{width: '90%', margin: 10}}>
-            <Card.Title title={props.name} titleStyle={{fontWeight: 'bold'}}/>
+            <Card.Title title={(props.firstname ? props.firstname + ' ' : '') + (props.lastname ? props.lastname : '')} titleStyle={{fontWeight: 'bold'}}/>
             <Card.Content style={{marginBottom: 5}}>
-                <Text>{props.tel}</Text>
-                <Text variant="bodyMedium">{props.email}</Text>
+                <Text>Tel.: {props.tel ? props.tel : '-'}</Text>
+                <Text variant="bodyMedium">E-Mail: {props.email ? props.email : '-'}</Text>
             </Card.Content>
             <Card.Actions>
                 {props.received ? 
@@ -18,7 +18,7 @@ export default function ContactsCard(props) {
                         <Text style={{color:theme.colors.onBackground, fontWeight: 'bold'}}>Exportieren</Text>
                     </Button>
                     :
-                    <Button textColor='white' style={styles.buttonStyle} onPress={props.editButtonPress} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
+                    <Button textColor='white' style={styles.buttonStyle} onPress={props.onPressEdit} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
                         <Text style={{color: theme.colors.onBackground, fontWeight: 'bold'}} >Bearbeiten</Text>
                     </Button>
                 }
