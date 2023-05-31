@@ -18,6 +18,13 @@ export default function App() {
         setTheme(theme.dark ? {...MD3LightTheme} : {...MD3DarkTheme})
     }
 
+    const saveContact = () => {
+        db.transaction(txn => {
+            txn.executeSql("UPDATE contacts SET firstname=?, lastname=?, tel=?, email=?, address=?, company=?, website=? WHERE id=?",
+                [firstname, lastname, tel, email, address, company, website, props.contactId])
+        })
+    }
+
     useEffect(() => {
         db.transaction(txn => {
             txn.executeSql(
@@ -27,7 +34,7 @@ export default function App() {
     })
 
     return (
-        <PaperProvider theme={theme} >
+        <PaperProvider theme={theme}>
             <NavigationContainer theme={theme}>
                 <Stack.Navigator>
                     <Stack.Screen
@@ -37,7 +44,7 @@ export default function App() {
                     />
                     <Stack.Screen
                     name="EditContact"
-                    children={() => <EditingScreen editing={true} />}
+                    children={() => <EditingScreen editing={true} contactId={editingContactId} />}
                     options={{
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.onBackground,

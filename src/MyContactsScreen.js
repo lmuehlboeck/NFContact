@@ -41,7 +41,7 @@ export default function MyContactsScreen(props) {
 
     useEffect(() => {
         loadContacts()
-    })
+    }, [])
 
     return (
         <View style={styles.viewStyle}>
