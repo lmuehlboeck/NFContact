@@ -18,13 +18,6 @@ export default function App() {
         setTheme(theme.dark ? {...MD3LightTheme} : {...MD3DarkTheme})
     }
 
-    const saveContact = () => {
-        db.transaction(txn => {
-            txn.executeSql("UPDATE contacts SET firstname=?, lastname=?, tel=?, email=?, address=?, company=?, website=? WHERE id=?",
-                [firstname, lastname, tel, email, address, company, website, props.contactId])
-        })
-    }
-
     useEffect(() => {
         db.transaction(txn => {
             txn.executeSql(
@@ -36,7 +29,7 @@ export default function App() {
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer theme={theme}>
-                <Stack.Navigator>
+                <Stack.Navigator id="Screens">
                     <Stack.Screen
                     name="Contacts"
                     children={() => <MyNavigator changeTheme={changeTheme} changeEditingContact={id => setEditingContactId(id)} />}
@@ -46,32 +39,18 @@ export default function App() {
                     name="EditContact"
                     children={() => <EditingScreen editing={true} contactId={editingContactId} />}
                     options={{
-                        headerStyle: {backgroundColor: theme.colors.background},
+                        headerStyle: {backgroundColor: theme.colors.background}, 
                         headerTintColor: theme.colors.onBackground,
-                        title: 'Kontakt bearbeiten',
-                        headerRight: () => (
-                            <Button
-                              onPress={() => alert('This is a button!')}
-                              mode='contained'>
-                                Speichern
-                            </Button>
-                          ),
+                        title: 'Kontakt bearbeiten'
                     }}
                     />
                     <Stack.Screen
                     name="CreateContact"
-                    children={() => <EditingScreen contactId={editingContactId} />}
+                    children={() => <EditingScreen />}
                     options={{
                         headerStyle: {backgroundColor: theme.colors.background},
                         headerTintColor: theme.colors.onBackground,
-                        title: 'Kontakt erstellen',
-                        headerRight: () => (
-                            <Button
-                              onPress={() => alert('This is a button!')}
-                              mode='contained'>
-                                Erstellen
-                            </Button>
-                          ),
+                        title: 'Kontakt erstellen'
                     }}
                     />
                     <Stack.Screen

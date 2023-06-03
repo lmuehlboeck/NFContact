@@ -8,7 +8,11 @@ export default function TopBar(props) {
 
   return(
       <View style={{flexGrow:1, flexDirection: 'row',height: 60, margin: 10, marginBottom: 0, backgroundColor: '#00'}}>
-          <SearchBar/>
+          <Searchbar
+            placeholder='Suchen'
+            onChangeText={query => props.onSearchQueryChange(query)}
+            style={{flex:1, alignSelf: 'center'}}
+          />
           <IconButton
           mode='contained'
           icon={modeIcon}
@@ -20,19 +24,4 @@ export default function TopBar(props) {
       </View>
   )
 }
-
-const SearchBar = () => {
-    const [searchQuery, setSearchQuery] = React.useState('');
-  
-    const onChangeSearch = query => setSearchQuery(query);
-  
-    return (
-      <Searchbar
-        placeholder='Suchen'
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        style={{flex:1, alignSelf: 'center'}}
-      />
-    );
-  };
 

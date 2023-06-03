@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { IconButton, TextInput, useTheme, Button, Text } from 'react-native-paper';
+import React, { useEffect,  useState } from 'react';
+import { ScrollView, View, ToastAndroid } from 'react-native';
+import { IconButton, TextInput, useTheme, Button, Text, Dialog, Portal } from 'react-native-paper';
 import { db } from './Database'
+import { useNavigation } from '@react-navigation/native';
 
 const styles = require('./styles.js')
 
@@ -14,14 +15,16 @@ export default function EditingScreen(props) {
     const [company, setCompany] = useState('')
     const [website, setWebsite] = useState('')
 
-    const theme = useTheme()
+    const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false)
 
-    const loadContact = () => {
+    const theme = useTheme()
+    const navigation = useNavigation()
+
+    const load = () => {
         db.transaction(txn => {
             txn.executeSql('SELECT * FROM contacts WHERE id=?', [props.contactId], (tx, res) => {
                 if(res.rows.length > 0) {
                     const c = res.rows.item(0)
-                    console.log(c)
                     setFirstname(c.firstname ? c.firstname : '')
                     setLastname(c.lastname ? c.lastname : '')
                     setTel(c.tel ? c.tel : '')
@@ -34,17 +37,77 @@ export default function EditingScreen(props) {
         })
     }
 
+    const saveContact = () => {
+        db.transaction(txn => {
+            txn.executeSql('UPDATE contacts SET firstname=?, lastname=?, tel=?, email=?, address=?, company=?, website=? WHERE id=?',
+                [firstname, lastname, tel, email, address, company, website, props.contactId],
+                (tx, res) => navigation.goBack(),
+                err => console.log(err))
+        })
+    }
+
+    const createContact = () => {
+        db.transaction(txn => {
+            txn.executeSql('INSERT INTO contacts (received,firstname,lastname,tel,email,address,company,website) VALUES (0,?,?,?,?,?,?,?)',
+                    [firstname, lastname, tel, email, address, company, website],
+                    (tx, res) => {
+                        navigation.goBack()
+                        ToastAndroid.show('Kontakt wurde erstellt', ToastAndroid.SHORT)
+                    },
+                    err => console.log(err))
+        })
+    }
+
+    const deleteContact = () => {
+        db.transaction(txn => {
+            txn.executeSql('DELETE FROM contacts WHERE id=?', 
+                [props.contactId],
+                (tx, res) => {
+                    navigation.goBack()
+                    ToastAndroid.show('Kontakt wurde gelöscht', ToastAndroid.SHORT)
+                },
+                err => console.log(err))
+        })
+    }
+
     useEffect(() => {
-        loadContact()
-        console.log('List')
+        load()
     }, [])
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Button
+                  onPress={() => {
+                    if(props.editing)
+                        saveContact()
+                    else
+                        createContact()
+                  }}
+                  mode='contained'>
+                    Speichern
+                </Button>
+              ),
+        })
+    }, [saveContact])
 
     return(
         <View>
+            <Portal>
+                <Dialog visible={deleteConfirmVisible} onDismiss={() => setDeleteConfirmVisible(false)}>
+                    <Dialog.Content>
+                        <Text variant="bodyLarge">Sind Sie sich sicher, dass dieser Kontakt unwiderruflich gelöscht werden soll?</Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={() => setDeleteConfirmVisible(false)}>Nein</Button>
+                        <Button onPress={() => deleteContact()}>Ja</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
             <ScrollView StickyHeaderComponent={<IconButton icon="camera" iconColor={theme.colors.onBackground} size={20}/>}>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <TextInput label="Vorname" right={<TextInput.Icon icon="account" />} style={[styles.editingInput, styles.nameInput]} 
-                            value={firstname} onChangeText={text => setFirstname(text)} />
+                            value={firstname} onChangeText={text => {setFirstname(text)}} />
                     <TextInput label="Nachname" right={<TextInput.Icon icon="account" />} style={[styles.editingInput, styles.nameInput]} 
                             value={lastname} onChangeText={text => setLastname(text)} />
                 </View>
@@ -60,7 +123,9 @@ export default function EditingScreen(props) {
                             value={website} onChangeText={text => setWebsite(text)} />
                 
                 {props.editing ? 
-                    <Button mode='contained' style={{backgroundColor: theme.colors.error, margin: 10}}>
+                    <Button mode='contained' 
+                            style={{backgroundColor: theme.colors.error, margin: 10}}
+                            onPress={() => setDeleteConfirmVisible(true)}>
                         <Text style={{color: theme.colors.onError}}>Kontakt Löschen</Text>
                     </Button>
                     : ''

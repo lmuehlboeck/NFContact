@@ -1,23 +1,19 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, BottomNavigation, useTheme } from 'react-native-paper';
+import { BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CommonActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
-import MyContactsScreen from './MyContactsScreen';
-import ReceivedContactsScreen from './ReceivedContactsScreen';
+import ContactsScreen from './ContactsScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function MyNavigator(props) {
   const navigation = useNavigation()
-  const theme = useTheme()
 
   return (
-    <NavigationContainer independent={true} theme={theme}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -67,7 +63,8 @@ export default function MyNavigator(props) {
         <Tab.Screen
           name="MyContacts"
           headerShown={false}
-          children={() => <MyContactsScreen changeTheme={props.changeTheme} 
+          children={() => <ContactsScreen received={false}
+                              changeTheme={props.changeTheme} 
                               navigateEdit={contactId => {
                                 navigation.navigate('EditContact')
                                 props.changeEditingContact(contactId)
@@ -83,7 +80,12 @@ export default function MyNavigator(props) {
         <Tab.Screen
           name="ReceivedContacts"
           headerShown={false}
-          children={() => <ReceivedContactsScreen changeTheme={props.changeTheme}
+          children={() => <ContactsScreen received={true}
+                            changeTheme={props.changeTheme}
+                            navigateEdit={contactId => {
+                              navigation.navigate('EditContact')
+                              props.changeEditingContact(contactId)
+                            }}
                             navigateDelete={() => navigation.navigate('DeleteContacts')} />}
           options={{
             tabBarLabel: 'Empfangene Kontakte',
@@ -93,6 +95,5 @@ export default function MyNavigator(props) {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }

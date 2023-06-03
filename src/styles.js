@@ -15,9 +15,9 @@ module.exports = StyleSheet.create({
     },
     flatListContainerStyle: {
         flexGrow: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center',
+        alignItems: 'center',
         width: '120%',
+        overflow: 'hidden'
     },
     modalStyle: {
         height: 250,

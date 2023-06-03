@@ -13,18 +13,12 @@ export default function ContactsCard(props) {
                 <Text variant="bodyMedium">E-Mail: {props.email ? props.email : '-'}</Text>
             </Card.Content>
             <Card.Actions>
-                {props.received ? 
-                    <Button textColor='black' style={styles.buttonStyle} icon={"pencil"} mode="contained-tonal" labelStyle={{color:theme.colors.onBackground}}>
-                        <Text style={{color:theme.colors.onBackground, fontWeight: 'bold'}}>Exportieren</Text>
-                    </Button>
-                    :
-                    <Button textColor='white' style={styles.buttonStyle} onPress={props.onPressEdit} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
-                        <Text style={{color: theme.colors.onBackground, fontWeight: 'bold'}} >Bearbeiten</Text>
-                    </Button>
-                }
+                <Button textColor='white' style={styles.buttonStyle} onPress={props.onPressEdit} labelStyle={{color: theme.colors.secondary}} icon={name="pencil"} mode="contained-tonal">
+                    <Text style={{color: theme.colors.onBackground, fontWeight: 'bold'}} >Bearbeiten</Text>
+                </Button>
                 {props.received ?
-                    <Button style={styles.buttonStyle} icon={name="trash-can-outline"} mode="contained" labelStyle={{color:theme.colors.background}}>
-                        <Text style={{color: theme.colors.background, fontWeight: 'bold'}}>Löschen</Text>
+                    <Button style={styles.buttonStyle} icon={name="export"} mode="contained" labelStyle={{color:theme.colors.background}}>
+                        <Text style={{color: theme.colors.background, fontWeight: 'bold'}}>Exportieren</Text>
                     </Button>
                     :
                     <Button style={styles.buttonStyle} icon={name="send"} mode="contained" onPress={props.onPressSend} labelStyle={{color:theme.colors.background}}>
