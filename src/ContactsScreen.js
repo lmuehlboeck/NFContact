@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useIsFocused } from '@react-navigation/native';
 import { db } from './Database';
 import { selectContactPhone } from 'react-native-select-contact';
+import Contacts from 'react-native-contacts'
 
 import { HCESession, NFCTagType4NDEFContentType, NFCTagType4 } from 'react-native-hce';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
@@ -144,6 +145,23 @@ export default function ContactsScreen(props) {
         })
     }
 
+    const exportContact = async (contact) => {
+        const request = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS)
+        if(request === PermissionsAndroid.RESULTS.DENIED || request === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+            showErrorDialog("Ohne Berechtigungen können keine Kontakte exportiert werden")
+            return
+        }
+        let exportContact = {}
+        if(contact.firstname && contact.firstname !== "") exportContact.givenName = contact.firstname
+        if(contact.lastname && contact.lastname !== "") exportContact.familyName = contact.lastname
+        if(contact.tel && contact.tel !== "") exportContact.phoneNumbers = [{label: 'Mobil', number: contact.tel}]
+        if(contact.email && contact.email !== "") exportContact.emailAddresses = [{label: 'Privat', email: contact.email}]
+        if(contact.address && contact.address !== "") exportContact.postalAddresses = [{label: 'Privat', formattedAddress: contact.address}]
+        if(contact.company && contact.company !== "") exportContact.company = contact.company
+        console.log(exportContact)
+        Contacts.addContact(exportContact).then(() => ToastAndroid.show("Kontakt wurde exportiert", ToastAndroid.SHORT))
+    }
+
     useEffect(() => {
         if(receivedData && "firstname" in receivedData && "lastname" in receivedData && "tel" in receivedData && 
             "email" in receivedData && "address" in receivedData && "company" in receivedData && "website" in receivedData) {
@@ -199,7 +217,8 @@ export default function ContactsScreen(props) {
                                                       email={item.email} 
                                                       received={props.received} 
                                                       onPressEdit={() => props.navigateEdit(item.id)} 
-                                                      onPressSend={() => sendContact(item)}/>}
+                                                      onPressSend={() => sendContact(item)}
+                                                      onPressExport={() => exportContact(item)}/>}
                 keyExtractor={item => item.id}
                 data={contacts}
             />

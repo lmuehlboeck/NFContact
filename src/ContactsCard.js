@@ -17,7 +17,7 @@ export default function ContactsCard(props) {
                     <Text style={{color: theme.colors.onBackground, fontWeight: 'bold'}} >Bearbeiten</Text>
                 </Button>
                 {props.received ?
-                    <Button style={styles.buttonStyle} icon={name="export"} mode="contained" labelStyle={{color:theme.colors.background}}>
+                    <Button style={styles.buttonStyle} icon={name="export"} mode="contained" onPress={props.onPressExport} labelStyle={{color:theme.colors.background}}>
                         <Text style={{color: theme.colors.background, fontWeight: 'bold'}}>Exportieren</Text>
                     </Button>
                     :
